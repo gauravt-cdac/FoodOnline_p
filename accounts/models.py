@@ -43,10 +43,10 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
 
     # Role choices
-    RESTAURANT = 1
+    VENDOR = 1
     CUSTOMER = 2
     ROLE_CHOICES = (
-        (RESTAURANT, 'restaurant'),
+        (VENDOR, 'vendor'),
         (CUSTOMER, 'customer'),
     )
     role = models.PositiveIntegerField(choices=ROLE_CHOICES, blank=True, null=True)
@@ -75,6 +75,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label):
         return True
+    
+    def get_role(self):
+        if self.role == 1:
+            return 'Vendor'
+        elif self.role == 2:
+            return 'Customer'
+        else:
+            return 'Unknown'
+
 
     @property
     def full_name(self):
